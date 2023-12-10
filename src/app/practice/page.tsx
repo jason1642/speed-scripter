@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react';
-import ChallengeDisplay from '../../components/ChallengeDisplay';
+import ChallengeDisplay from '../../components/challenge-panel/ChallengeDisplay';
 
 interface IAppProps {
 

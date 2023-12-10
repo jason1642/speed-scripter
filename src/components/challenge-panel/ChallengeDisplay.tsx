@@ -1,9 +1,15 @@
-import * as React from 'react';
+import { useEffect, useState, FunctionComponent } from "react";
 
 interface IChallengeDisplayProps {
     stringGoal: string;
     userInput: string;
 }
+
+interface IProgressStateTypes {
+    currentIndex: number;
+    
+}
+
 type challengeTypes = Array< {
     id: number;
     character: string;
@@ -17,13 +23,15 @@ type ErrorTypes = {
     message?: string;
     errorFirstIndex?: number;
 }
-
-const ChallengeDisplay: React.FunctionComponent<IChallengeDisplayProps> = ({stringGoal, userInput}) => {
+ 
+const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal, userInput}) => {
     // This can be an array of spans where each span highlights green when correct and red when there is an error
     // The id=index will determine what to highlight if there is an error
-    const [challenge, setChallenge] = React.useState<challengeTypes>(stringGoal.split('').map((e, i)=>{ return { id:i, character: e, element:<span>{e}</span> }}))
-    const [error,setError ] = React.useState<ErrorTypes>({hasError: false, message: undefined, errorFirstIndex: undefined})
-    const [errorMessage, setErrorMessage] = React.useState<string>('')
+    const [progressState, setProgressState] = useState<IProgressStateTypes>()
+    const [elapsedTime, setElapsedTime] = useState<number>()
+    const [challenge, setChallenge] = useState<challengeTypes>(stringGoal.split('').map((e, i)=>{ return { id:i, character: e, element:<span>{e}</span> }}))
+    const [error,setError ] = useState<ErrorTypes>({hasError: false, message: undefined, errorFirstIndex: undefined})
+    const [errorMessage, setErrorMessage] = useState<string>('')
 
 
 
@@ -44,7 +52,7 @@ const ChallengeDisplay: React.FunctionComponent<IChallengeDisplayProps> = ({stri
             console.log('same as challenge')
             setChallenge(prev=>{
                 if(userInput.length !== 0) {
-                    prev[userInput.length ].element = <span style={{backgroundColor:"#12421074", textDecoration:'underline', color: 'white'}}>{challenge[userInput.length].character}</span>
+                    prev[userInput.length ].element = <span style={{ textDecoration:'underline', borderBottom: '1px solid black', color: 'green'}}>{challenge[userInput.length].character}</span>
 
                     // prev[userInput.length].element = <span style={{backgroundColor:"#124210", textDecoration:'underline', color: 'white'}}>{challenge[userInput.length].character}</span>
 
@@ -67,7 +75,7 @@ const ChallengeDisplay: React.FunctionComponent<IChallengeDisplayProps> = ({stri
     }
 
 
-    React.useEffect(()=>{
+    useEffect(()=>{
         compareFunction(stringGoal, userInput)
         console.log('running useeffect')
     },[userInput])
