@@ -1,38 +1,20 @@
 import { useEffect, useState, FunctionComponent } from "react";
+import styled from 'styled-components';
+import {IChallengeDisplayProps, IProgressStateProps, ITimerProps, challengeTypes, ErrorTypes} from './types'
 
-interface IChallengeDisplayProps {
-    stringGoal: string;
-    userInput: string;
-}
 
-interface IProgressStateProps {
-    currentIndex: number;
-    // Divide typed characters by 5
-    wordsPerMinute: number;
-}
+const Container = styled.div`
+  display:flex;
+`;
 
-type challengeTypes = Array< {
-    id: number;
-    character: string;
-    element: React.ReactElement;
-}>
 
-interface ITimerProps {
-    timeElapsed: number;
-    state: 'active' | 'paused' | 'stop';
-}
-
-type ErrorTypes = {
-    hasError: boolean;
-    message?: string;
-    errorFirstIndex?: number;
-}
  
 const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal, userInput}) => {
     // This can be an array of spans where each span highlights green when correct and red when there is an error
     // The id=index will determine what to highlight if there is an error
     const [progressState, setProgressState] = useState<IProgressStateProps>({currentIndex: 0, wordsPerMinute: 0})
     // Count down timer
+    const [words, setWords] = useState()
     const [timer, setTimer] = useState<ITimerProps>({timeElapsed: 0, state: 'paused'})
     const [challenge, setChallenge] = useState<challengeTypes>(stringGoal.split('').map((e, i)=>{ return { id:i, character: e, element:<span unselectable="on">{e}</span> }}))
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: undefined, errorFirstIndex: undefined})
@@ -83,12 +65,12 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     },[userInput])
 
     // Display goal string with highlights depending on userinput progress
-  return (<div>
+  return (<Container>
 
         {/* On error, show where the error has occurred at first and highlight red. All other characters after error is wrong until it is fixed*/}
       <div style={{fontSize: '2em'}}>{challenge.map(item=>item.element)}</div>
       <div style={{color: "red"}}>{errorMessage ? `Message: ${errorMessage}` : ''}</div>
-  </div>
+  </Container>
 
   );
 };
