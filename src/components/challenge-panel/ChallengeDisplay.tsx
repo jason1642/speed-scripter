@@ -15,8 +15,6 @@ type challengeTypes = Array< {
     id: number;
     character: string;
     element: React.ReactElement;
-    
-
 }>
 
 interface ITimerProps {
@@ -34,13 +32,11 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     // This can be an array of spans where each span highlights green when correct and red when there is an error
     // The id=index will determine what to highlight if there is an error
     const [progressState, setProgressState] = useState<IProgressStateProps>({currentIndex: 0, wordsPerMinute: 0})
+    // Count down timer
     const [timer, setTimer] = useState<ITimerProps>({timeElapsed: 0, state: 'paused'})
-    const [challenge, setChallenge] = useState<challengeTypes>(stringGoal.split('').map((e, i)=>{ return { id:i, character: e, element:<span>{e}</span> }}))
+    const [challenge, setChallenge] = useState<challengeTypes>(stringGoal.split('').map((e, i)=>{ return { id:i, character: e, element:<span unselectable="on">{e}</span> }}))
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: undefined, errorFirstIndex: undefined})
     const [errorMessage, setErrorMessage] = useState<string>('')
-
-
-
 
     const compareFunction = (challengeString: string, userInput:string) => {
         // Do not change userinput here
@@ -50,7 +46,10 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             alert('You have completed the race in # seconds')
             return
         }
-        
+        setProgressState(prev=>({
+            ...prev,
+            currentIndex: userInput.length
+        }))
         // let currentIndex = userInput.length
         // console.log(challenge.slice(0, userInput.length))
 
@@ -59,12 +58,9 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             console.log(challenge)
             setProgressState(prev=>({...prev, currentIndex: userInput.length}))
             setChallenge(prev=>{
-                // if(userInput.length !== 0) {
-                    prev[progressState.currentIndex].element = <span style={{ textDecoration:'underline', borderBottom: '1px solid black', color: 'green'}}>{challenge[progressState.currentIndex].character}</span>
+                    prev[progressState.currentIndex].element = <span unselectable="on" style={{ textDecoration:'underline', borderLeft: '1px solid black', color: 'green'}}>{challenge[progressState.currentIndex].character}</span>
+                    // prev[progressState.currentIndex + 1].element = <span unselectable="on" style={{  borderLeft: '1px solid black'}}>{challenge[progressState.currentIndex + 1].character}</span>
 
-                    // prev[userInput.length].element = <span style={{backgroundColor:"#124210", textDecoration:'underline', color: 'white'}}>{challenge[userInput.length].character}</span>
-
-                // }
                 return [...prev]
             })
             setErrorMessage('')
@@ -78,10 +74,8 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             setErrorMessage(`Error at index: ${userInput.length}`)
         }
 
-
         console.log('User Input: ' + userInput)
     }
-
 
     useEffect(()=>{
         compareFunction(stringGoal, userInput)
