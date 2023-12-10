@@ -1,0 +1,15 @@
+
+
+.correct-input {
+    color: green;
+}
+
+
+.incorrect-input {
+    color: red;
+
+}
+
+.nuetral-input {
+    color: black;
+}

@@ -4,14 +4,17 @@ export interface IChallengeDisplayProps {
 }
 
 export interface IProgressStateProps {
-    currentIndex: number;
     // Divide typed characters by 5
     wordsPerMinute: number;
+    currentWord: number;
+    resultString: string;
 }
 
-export type challengeTypes = Array< {
+export type WordElementMapTypes = Array< {
     id: number;
-    character: string;
+    // character: string;
+    content: string;
+    // parentWord: string;
     element: React.ReactElement;
 }>
 
@@ -26,7 +29,9 @@ export type ErrorTypes = {
     errorFirstIndex?: number;
 }
 
-export type WordsTypes = {
+export type WordsTypes = Array<{
     content: string;
+    index: number;
+
     
-}
+}>
