@@ -9,7 +9,7 @@ const Container = styled.div`
 
 const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal, clearUserInput, userInput}) => {
     const wordList = stringGoal.split(' ')
-    const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, charactersCorrect: 0, resultString: ''})
+    const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, currentWordLetterIndex: 0, charactersCorrect: 0, resultString: ''})
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: 'There is an error in your input', errorFirstIndex: undefined})
 
     // const [timer, setTimer] = useState<ITimerProps>({timeElapsed: 0, state: 'paused'})
@@ -18,22 +18,18 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             ({
                 id:i,
                 content: e, 
-                element: <><span unselectable="on"
-                className={`word word${i}`}
-                >
-                {e.split('').map((item, index)=>
+                elementArray: [...e.split('').map((item, index)=>
                                     <span 
                                     unselectable="on"
                                     // className={`word${i}character${index} ${progressState.currentWord === i && userInput[index] === e ? 'correct-input' : userInput.length < index ? 'nuetral-input' : 'incorrect-input'}`}
                                     key={(item + index.toString())}
                                     >
                                         {item}
-                                    </span>)}
-                </span><span> </span> </>
+                                    </span>), 
+                                    <span key={`${e}${e.length * i + 55}`}> </span>
+                                ]
                 }))
             )
-    
-
 
     const wordTracker = ()=>{
 
@@ -47,12 +43,11 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             setProgressState(prev=>({
                 ...prev,
                 resultString: prev.resultString + userInput,
+                currentWordLetterIndex: 0,
                 currentWord: prev.currentWord + 1,
             }))
             console.log('You successfully typed the entire word withe a space')
         }
-
-
     }
     
 
@@ -61,23 +56,23 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
         console.log(wordList[progressState.currentWord][userInput.length - 1])
         if(userInput[userInput.length - 1] === wordList[progressState.currentWord][userInput.length - 1]){
             console.log('That is the correct letter!!')
+            setProgressState(prev=>({...prev, currentWordLetterIndex: prev.currentWordLetterIndex + 1}))
+
+            setWordElementMap(prev=>{
+                let tempWordMap = prev
+                console.log(tempWordMap[progressState.currentWord].elementArray)
+                tempWordMap[progressState.currentWord].elementArray[progressState.currentWordLetterIndex] =
+                    <span unselectable="on" key={Math.random()}>
+                        {prev[progressState.currentWord].content[progressState.currentWordLetterIndex]}
+                        </span>
+                        console.log(tempWordMap)
+                return ([
+                    ...tempWordMap
+                ])
+            })
 
         }
      
-        // if(userInput === wordList[progressState.currentWord]){
-            
-        //     setProgressState(prev=>({...prev, currentWord: prev.currentWord + 1, resultString: prev.resultString + wordList[progressState.currentWord]}))
-  
-        //     setError(prev=>({...prev, message: '', hasError: false}))
-        // } else if(error.hasError === true) {
-        //     // Highlight red 
-        //     return 
-        // }else if (userInput.length === 0){
-        //     // setError({hasError: true, message: 'There is an error', errorFirstIndex: userInput.length})
-        // } else {
-        //     console.log('nothing')
-        // }
-
     if(challengeString === progressState.resultString){
                 alert('You have completed the race in # seconds')
                 return
@@ -87,18 +82,28 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
 
 
     useEffect(()=>{
-        compareFunction(stringGoal, userInput)
+        if(userInput){
+            
+                    compareFunction(stringGoal, userInput)
         handleNextWordMove()
-        console.log('This is the current word index: ' +progressState.currentWord)
+        console.log(wordElementMap.map(item=>item.elementArray))
+        // console.log('This is the current word index: ' +progressState.currentWord)
         // console.log('running use effect')
+        }
+
     },[userInput])
 
     // Display goal string with highlights depending on userinput progress
   return (<Container>
 
         {/* On error, show where the error has occurred at first and highlight red. All other characters after error is wrong until it is fixed*/}
-      <div style={{fontSize: '2em'}}>{wordElementMap.map(item=>item.element)}</div>
+     {
+        wordElementMap&&
+          <div style={{fontSize: '2em'}}>{wordElementMap.map(item=>item.elementArray)}</div>
+     }
+    
       <div style={{color: "red"}}>{error.hasError ? `Message: ${error.message}` : ''}</div>
+
   </Container>
 
   );

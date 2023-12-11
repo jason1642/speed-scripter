@@ -8,6 +8,7 @@ export interface IProgressStateProps {
     // Divide typed characters by 5
     wordsPerMinute: number;
     currentWord: number;
+    currentWordLetterIndex: number;
     charactersCorrect: number;
     resultString: string;
 }
@@ -17,7 +18,7 @@ export type WordElementMapTypes = Array< {
     // character: string;
     content: string;
     // parentWord: string;
-    element: React.ReactElement;
+    elementArray: React.ReactElement[];
 }>
 
 export interface ITimerProps {
