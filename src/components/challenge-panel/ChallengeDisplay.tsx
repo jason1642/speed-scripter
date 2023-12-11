@@ -9,7 +9,7 @@ const Container = styled.div`
 
 const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal, userInput}) => {
     const wordList = stringGoal.split(' ')
-    const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, resultString: ''})
+    const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, charactersCorrect: 0, resultString: ''})
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: 'There is an error in your input', errorFirstIndex: undefined})
 
     // const [timer, setTimer] = useState<ITimerProps>({timeElapsed: 0, state: 'paused'})
@@ -18,18 +18,18 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             ({
                 id:i,
                 content: e, 
-                element:<span unselectable="on"
+                element: <><span unselectable="on"
                 className={`word word${i}`}
                 >
                 {e.split('').map((item, index)=>
                                     <span 
                                     unselectable="on"
-                                    className={`word${i}character${index} ${userInput[index] === e && error.hasError === false ? 'correct-input' : userInput.length < index ? 'nuetral-input' : 'incorrect-input'}`}
+                                    // className={`word${i}character${index} ${progressState.currentWord === i && userInput[index] === e ? 'correct-input' : userInput.length < index ? 'nuetral-input' : 'incorrect-input'}`}
                                     key={(item + index.toString())}
                                     >
                                         {item}
                                     </span>)}
-                </span> })),
+                </span><span> </span> </>})),
             []
             )
     
@@ -53,20 +53,26 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     }
     
     const compareFunction = (challengeString: string, userInput:string) => {
-      
+        console.log('last letter' + userInput[userInput.length - 1])
+        if(userInput[-1] === wordList[progressState.currentWord]){
+            console.log('That is the correct word!!')
+        }
      
         if(userInput === wordList[progressState.currentWord]){
-   
+            
             setProgressState(prev=>({...prev, resultString: prev.resultString + userInput}))
   
             setError(prev=>({...prev, hasError: false}))
         } else if(error.hasError === true) {
             // Highlight red 
             return 
-        }else {
-            setError({hasError: true, errorFirstIndex: userInput.length})
+        }else if (userInput.length === 0){
+            // setError({hasError: true, message: 'There is an error', errorFirstIndex: userInput.length})
+        } else {
+            console.log('nothing')
         }
-    if(challengeString === wordList.join(' ') + userInput){
+
+    if(challengeString === progressState.resultString){
                 alert('You have completed the race in # seconds')
                 return
             }

@@ -7,6 +7,7 @@ export interface IProgressStateProps {
     // Divide typed characters by 5
     wordsPerMinute: number;
     currentWord: number;
+    charactersCorrect: number;
     resultString: string;
 }
 
