@@ -1,6 +1,7 @@
 export interface IChallengeDisplayProps {
     stringGoal: string;
     userInput: string;
+    clearUserInput(): any;
 }
 
 export interface IProgressStateProps {

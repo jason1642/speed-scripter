@@ -20,12 +20,13 @@ const Practice: React.FunctionComponent<IAppProps> = () => {
 
 
     const [userInput, setUserInput] = React.useState<string>('')
-
-
+    const clearUserInput = ()=> {
+        setUserInput('')
+    }
   return(
     <p>
 
-    <ChallengeDisplay stringGoal={practiceString} userInput={userInput}/>
+    <ChallengeDisplay clearUserInput={clearUserInput} stringGoal={practiceString} userInput={userInput}/>
         
         <input
         style={{width: '900px'}}

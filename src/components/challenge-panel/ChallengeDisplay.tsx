@@ -7,7 +7,7 @@ const Container = styled.div`
   display:flex;
 `;
 
-const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal, userInput}) => {
+const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal, clearUserInput, userInput}) => {
     const wordList = stringGoal.split(' ')
     const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, charactersCorrect: 0, resultString: ''})
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: 'There is an error in your input', errorFirstIndex: undefined})
@@ -42,6 +42,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
 
     const handleNextWordMove = ()=>{ 
         if (userInput === wordList[progressState.currentWord] + ' '){
+            clearUserInput()
             setProgressState(prev=>({
                 ...prev,
                 resultString: prev.resultString + userInput,
@@ -55,8 +56,9 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     
 
     const compareFunction = (challengeString: string, userInput:string) => {
-        console.log('last letter' + userInput[userInput.length - 1])
-        if(userInput[-1] === wordList[progressState.currentWord]){
+        console.log('last letter ' + userInput[userInput.length - 1] ,  wordList[progressState.currentWord][userInput.length - 1])
+        console.log(wordList[progressState.currentWord][userInput.length - 1])
+        if(userInput[userInput.length - 1] === wordList[progressState.currentWord][userInput.length - 1]){
             console.log('That is the correct letter!!')
 
         }
@@ -86,8 +88,8 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     useEffect(()=>{
         compareFunction(stringGoal, userInput)
         handleNextWordMove()
-        console.log('running use effect')
-        console.log(wordElementMap)
+        console.log('This is the current word index: ' +progressState.currentWord)
+        // console.log('running use effect')
     },[userInput])
 
     // Display goal string with highlights depending on userinput progress
