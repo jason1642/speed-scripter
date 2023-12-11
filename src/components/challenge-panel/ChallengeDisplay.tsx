@@ -51,7 +51,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     }
     
 
-    const compareFunction = (challengeString: string, userInput:string) => {
+    const compareFunction = async (challengeString: string, userInput:string) => {
         console.log('last letter ' + userInput[userInput.length - 1] ,  wordList[progressState.currentWord][userInput.length - 1])
         console.log(wordList[progressState.currentWord][userInput.length - 1])
         if(userInput[userInput.length - 1] === wordList[progressState.currentWord][userInput.length - 1]){
@@ -59,15 +59,15 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             setProgressState(prev=>({...prev, currentWordLetterIndex: prev.currentWordLetterIndex + 1}))
 
             setWordElementMap(prev=>{
-                let tempWordMap = prev
-                console.log(tempWordMap[progressState.currentWord].elementArray)
-                tempWordMap[progressState.currentWord].elementArray[progressState.currentWordLetterIndex] =
-                    <span unselectable="on" key={Math.random()}>
+              
+                console.log(prev[progressState.currentWord].elementArray)
+                prev[progressState.currentWord].elementArray[progressState.currentWordLetterIndex] =
+                    <b unselectable="on" style={{color: 'green'}} className={'.correct-input'} key={Math.random()}>
                         {prev[progressState.currentWord].content[progressState.currentWordLetterIndex]}
-                        </span>
-                        console.log(tempWordMap)
+                        </b>
+                        console.log(prev)
                 return ([
-                    ...tempWordMap
+                    ...prev
                 ])
             })
 
@@ -82,25 +82,26 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
 
 
     useEffect(()=>{
-        if(userInput){
-            
-                    compareFunction(stringGoal, userInput)
-        handleNextWordMove()
-        console.log(wordElementMap.map(item=>item.elementArray))
+        // if(userInput){
+            userInput && compareFunction(stringGoal, userInput)
+            userInput && handleNextWordMove()
+        console.log(userInput)
         // console.log('This is the current word index: ' +progressState.currentWord)
         // console.log('running use effect')
-        }
+        // }
 
     },[userInput])
 
-    // Display goal string with highlights depending on userinput progress
   return (<Container>
 
-        {/* On error, show where the error has occurred at first and highlight red. All other characters after error is wrong until it is fixed*/}
-     {
-        wordElementMap&&
-          <div style={{fontSize: '2em'}}>{wordElementMap.map(item=>item.elementArray)}</div>
-     }
+{ wordElementMap &&
+          <div style={{fontSize: '2em'}}>{
+           
+            wordElementMap.map(item=>{
+                // console.log(item)
+                return item.elementArray})
+            }</div>
+        }
     
       <div style={{color: "red"}}>{error.hasError ? `Message: ${error.message}` : ''}</div>
 
