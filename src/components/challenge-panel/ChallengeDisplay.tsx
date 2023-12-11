@@ -13,7 +13,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: 'There is an error in your input', errorFirstIndex: undefined})
 
     // const [timer, setTimer] = useState<ITimerProps>({timeElapsed: 0, state: 'paused'})
-    const wordElementMap = useMemo<WordElementMapTypes>(()  =>
+    const [wordElementMap, setWordElementMap] = useState<WordElementMapTypes>( 
         wordList.map((e, i)=>
             ({
                 id:i,
@@ -29,15 +29,16 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                                     >
                                         {item}
                                     </span>)}
-                </span><span> </span> </>})),
-            []
+                </span><span> </span> </>
+                }))
             )
     
-    // const [errorMessage, setErrorMessage] = useState<string>('')
-    // Compare the user input to the current word
+
+
     const wordTracker = ()=>{
 
     }
+
 
     const handleNextWordMove = ()=>{ 
         if (userInput === wordList[progressState.currentWord] + ' '){
@@ -52,17 +53,19 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
 
     }
     
+
     const compareFunction = (challengeString: string, userInput:string) => {
         console.log('last letter' + userInput[userInput.length - 1])
         if(userInput[-1] === wordList[progressState.currentWord]){
-            console.log('That is the correct word!!')
+            console.log('That is the correct letter!!')
+
         }
      
         if(userInput === wordList[progressState.currentWord]){
             
-            setProgressState(prev=>({...prev, resultString: prev.resultString + userInput}))
+            setProgressState(prev=>({...prev, currentWord: prev.currentWord + 1, resultString: prev.resultString + wordList[progressState.currentWord]}))
   
-            setError(prev=>({...prev, hasError: false}))
+            setError(prev=>({...prev, message: '', hasError: false}))
         } else if(error.hasError === true) {
             // Highlight red 
             return 
@@ -79,10 +82,12 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
         console.log('User Input: ' + userInput)
     }
 
+
     useEffect(()=>{
         compareFunction(stringGoal, userInput)
         handleNextWordMove()
         console.log('running use effect')
+        console.log(wordElementMap)
     },[userInput])
 
     // Display goal string with highlights depending on userinput progress
