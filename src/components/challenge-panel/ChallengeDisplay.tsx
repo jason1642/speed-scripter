@@ -12,7 +12,6 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, currentWordLetterIndex: 0, charactersCorrect: 0, resultString: ''})
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: 'There is an error in your input', errorFirstIndex: undefined})
 
-    // const [timer, setTimer] = useState<ITimerProps>({timeElapsed: 0, state: 'paused'})
     const [wordElementMap, setWordElementMap] = useState<WordElementMapTypes>( 
         wordList.map((e, i)=>
             ({
@@ -21,25 +20,12 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                 elementArray: [...e.split('').map((item, index) =>
                                     <span 
                                     unselectable="on"
-                                    style={{
-                                        // borderBottom: progressState.currentWord === i ? '1px solid black' : 'none'
-                                    }}
-                                    // className={`word${i}character${index} ${progressState.currentWord === i && userInput[index] === e ? 'correct-input' : userInput.length < index ? 'nuetral-input' : 'incorrect-input'}`}
                                     key={item + index.toString()}
-                                    >
-                                        {item}
+                                    >{item}
                                     </span>), 
                                     (i !== wordList.length - 1 ? <span key={`${e}${e.length * i + 55}`}> </span> : <></>)
-                                   
                                 ]
-            
-                }))
-            )
-
-    const wordTracker = ()=>{
-
-    }
-
+                })))
 
     const handleNextWordMove = ()=>{ 
         console.log('userinput' + userInput + 'endofuserinput')
@@ -62,7 +48,6 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
         if(userInput[userInput.length - 1] === wordList[progressState.currentWord][userInput.length - 1]){
             // console.log('That is the correct letter!!')
             setProgressState(prev=>({...prev, currentWordLetterIndex: prev.currentWordLetterIndex + 1}))
-
             setWordElementMap(prev=>{
                 let tempArr = prev
                 // console.log(prev[progressState.currentWord].elementArray)
@@ -74,7 +59,6 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                     ...prev
                 ])
             })
-
         }
      
     if(challengeString === progressState.resultString){
@@ -84,45 +68,28 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
         console.log('User Input: ' + userInput)
     }
 
-  
-    
-
     useEffect(()=>{
-        // if(userInput){
             userInput && compareFunction(stringGoal, userInput)
             userInput && handleNextWordMove()
-        // console.log(userInput)
-        // console.log('This is the current word index: ' +progressState.currentWord)
-        // console.log('running use effect')
-        // }
-
     },[userInput, stringGoal])
-
-
-    useEffect(()=>{
-        console.log(wordElementMap)
-    },[wordElementMap])
 
   return  (<Container>
 
 
-          <div style={{fontSize: '2em'}}>{
-           
+          <div style={{fontSize: '2em'}}>
+            {
             wordElementMap.map(item=> (<span
             style={{borderBottom: progressState.currentWord === item.id ? '1px solid black' : 'none'}}
-
              key={item.id} 
              >
                 {[...item.elementArray]}
                 </span>)
                 )
             }</div> 
-        
     
       <div style={{color: "red"}}>{error.hasError ? `Message: ${error.message}` : ''}</div>
 
   </Container>
-
   )
 }
 
