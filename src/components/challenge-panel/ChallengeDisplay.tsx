@@ -21,13 +21,18 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                 elementArray: [...e.split('').map((item, index) =>
                                     <span 
                                     unselectable="on"
+                                    style={{
+                                        // borderBottom: progressState.currentWord === i ? '1px solid black' : 'none'
+                                    }}
                                     // className={`word${i}character${index} ${progressState.currentWord === i && userInput[index] === e ? 'correct-input' : userInput.length < index ? 'nuetral-input' : 'incorrect-input'}`}
                                     key={item + index.toString()}
                                     >
                                         {item}
                                     </span>), 
                                     (i !== wordList.length - 1 ? <span key={`${e}${e.length * i + 55}`}> </span> : <></>)
+                                   
                                 ]
+            
                 }))
             )
 
@@ -52,20 +57,19 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     
 
     const compareFunction = async (challengeString: string, userInput:string) => {
-        console.log('last letter ' + userInput[userInput.length - 1] ,  wordList[progressState.currentWord][userInput.length - 1])
-        console.log(wordList[progressState.currentWord][userInput.length - 1])
+        // console.log('last letter ' + userInput[userInput.length - 1] ,  wordList[progressState.currentWord][userInput.length - 1])
+        // console.log(wordList[progressState.currentWord][userInput.length - 1])
         if(userInput[userInput.length - 1] === wordList[progressState.currentWord][userInput.length - 1]){
-            console.log('That is the correct letter!!')
+            // console.log('That is the correct letter!!')
             setProgressState(prev=>({...prev, currentWordLetterIndex: prev.currentWordLetterIndex + 1}))
 
             setWordElementMap(prev=>{
                 let tempArr = prev
-                console.log(prev[progressState.currentWord].elementArray)
+                // console.log(prev[progressState.currentWord].elementArray)
                 tempArr[progressState.currentWord].elementArray[progressState.currentWordLetterIndex] =
-                    (<b unselectable="on" style={{color: 'green !important'}} className={'.correct-input'} key={Math.random()}>
+                    (<span unselectable="on" style={{color: 'green'}} className='.correct-input' key={Math.random()}>
                         {prev[progressState.currentWord].content[progressState.currentWordLetterIndex]}
-                        </b>)
-                        // console.log(prev)
+                        </span>)
                 return ([
                     ...prev
                 ])
@@ -104,7 +108,14 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
 
           <div style={{fontSize: '2em'}}>{
            
-            wordElementMap.map(item=> [...item.elementArray])
+            wordElementMap.map(item=> (<span
+            style={{borderBottom: progressState.currentWord === item.id ? '1px solid black' : 'none'}}
+
+             key={item.id} 
+             >
+                {[...item.elementArray]}
+                </span>)
+                )
             }</div> 
         
     
