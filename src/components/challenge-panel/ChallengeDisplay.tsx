@@ -41,7 +41,8 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
 
 
     const handleNextWordMove = ()=>{ 
-        if (userInput === wordList[progressState.currentWord] + ' '){
+        console.log('userinput' + userInput + 'endofuserinput')
+        if (userInput.trim() === wordList[progressState.currentWord] && userInput.endsWith(' ') && userInput.length === wordList[progressState.currentWord].length + 1){
             clearUserInput()
             setProgressState(prev=>({
                 ...prev,
@@ -63,19 +64,19 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
 
         }
      
-        if(userInput === wordList[progressState.currentWord]){
+        // if(userInput === wordList[progressState.currentWord]){
             
-            setProgressState(prev=>({...prev, currentWord: prev.currentWord + 1, resultString: prev.resultString + wordList[progressState.currentWord]}))
+        //     setProgressState(prev=>({...prev, currentWord: prev.currentWord + 1, resultString: prev.resultString + wordList[progressState.currentWord]}))
   
-            setError(prev=>({...prev, message: '', hasError: false}))
-        } else if(error.hasError === true) {
-            // Highlight red 
-            return 
-        }else if (userInput.length === 0){
-            // setError({hasError: true, message: 'There is an error', errorFirstIndex: userInput.length})
-        } else {
-            console.log('nothing')
-        }
+        //     setError(prev=>({...prev, message: '', hasError: false}))
+        // } else if(error.hasError === true) {
+        //     // Highlight red 
+        //     return 
+        // }else if (userInput.length === 0){
+        //     // setError({hasError: true, message: 'There is an error', errorFirstIndex: userInput.length})
+        // } else {
+        //     console.log('nothing')
+        // }
 
     if(challengeString === progressState.resultString){
                 alert('You have completed the race in # seconds')
