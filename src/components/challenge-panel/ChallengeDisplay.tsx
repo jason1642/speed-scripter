@@ -40,7 +40,6 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
         }
     }
     
-
     const compareFunction = async (challengeString: string, userInput:string) => {
        
         setProgressState(prev=>({...prev, currentWordLetterIndex: userInput.length }))
@@ -49,27 +48,26 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             console.log(userInput.length)
             // setProgressState(prev=>({...prev, currentWordLetterIndex: userInput.length }))
             setWordElementMap(prev=>{
-
+                let prevCharsInStringCorrect = true
                 prev[progressState.currentWord].elementArray.forEach((ele, ind) => {
-                    if(userInput[ind] == prev[progressState.currentWord].content[ind]){
+                    if(userInput[ind] == prev[progressState.currentWord].content[ind] && prevCharsInStringCorrect){
+                       prevCharsInStringCorrect = true
                         prev[progressState.currentWord].elementArray[ind] =
                     (<span unselectable="on" style={{color: 'green'}} className='.correct-input' key={Math.random()}>
                         {prev[progressState.currentWord].content[ind]}
                         </span>) 
                     }else {
+                       prevCharsInStringCorrect = false
+
                         prev[progressState.currentWord].elementArray[ind] =
-                    (<span unselectable="on" className='.nuetral-input' key={Math.random()}>
+                    (<span unselectable="on" className='.incorrect-input' key={Math.random()}>
                         {prev[progressState.currentWord].content[ind]}
                         </span>) 
                     }
                     
                 })
-               
-                      
-                    // prev[progressState.currentWord].elementArray[progressState.currentWordLetterIndex + 1] =
-                    // (<span unselectable="on"  className='.nuetral-input' key={Math.random()}>
-                    //     {prev[progressState.currentWord].content[progressState.currentWordLetterIndex + 1]}
-                    //     </span>)
+                prev[progressState.currentWord].elementArray[prev[progressState.currentWord].elementArray.length] = 
+                (<span unselectable="on"  key={Math.random()}> </span>) 
                 return ([ ...prev ])
             })
         }
@@ -86,7 +84,6 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     },[userInput, stringGoal])
 
   return  (<Container>
-
 
           <div style={{fontSize: '2em'}}>
             {
