@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, FunctionComponent } from "react";
+import { useEffect, useMemo, ReactElement,useState, FunctionComponent } from "react";
 import styled from 'styled-components';
 import {IChallengeDisplayProps, IProgressStateProps, ITimerProps, WordElementMapTypes, ErrorTypes, WordsTypes} from './types'
 import './letterHighlights.css'
@@ -43,35 +43,26 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     const compareFunction = async (challengeString: string, userInput:string) => {
        
         setProgressState(prev=>({...prev, currentWordLetterIndex: userInput.length }))
-        // if(userInput[userInput.length - 1] === wordList[progressState.currentWord][0 | userInput.length - 1]){
-            // console.log('This input matches the goal word: ' +  userInput[userInput.length - 1])
-            // console.log(userInput.length)
-            console.log(userInput.length)
-            console.log(userInput)
             setWordElementMap(prev=>{
                 let prevCharsInStringCorrect = true
                 prev[progressState.currentWord].elementArray.forEach((ele, ind) => {
                 
+
+                    let spanElement =  (color:string, letter:string)=>
+                     <span unselectable="on" style={{color: color}} key={Math.random()}>{letter}</span>
+
                     if(userInput[ind] == prev[progressState.currentWord].content[ind] && prevCharsInStringCorrect && userInput.length >= ind){
                        prevCharsInStringCorrect = true
-                        prev[progressState.currentWord].elementArray[ind] =
-                    (<span unselectable="on" style={{color: 'green'}} className='.correct-input' key={Math.random()}>
-                        {prev[progressState.currentWord].content[ind]}
-                        </span>) 
+                        prev[progressState.currentWord].elementArray[ind] = spanElement('green', prev[progressState.currentWord].content[ind])
 
-                        // Check if userinput is long enough to reach index and is the incorrect letter. Skip this check if prevCharsInStringCorrect = false or continue highlighting red for each corresponding letter incorrectly typed
-                    }else if ( userInput.length > ind && userInput[ind] !== prev[progressState.currentWord].content[ind] ){
+                        // Check if userinput is long enough to reach index and is the incorrect letter. 
+                        // Skip this check if prevCharsInStringCorrect = false or continue highlighting red for each corresponding letter incorrectly typed
+                    } else if ( userInput.length > ind && userInput[ind] !== prev[progressState.currentWord].content[ind] ){
                        prevCharsInStringCorrect = false
-                        console.log('incorrect input')
-                        prev[progressState.currentWord].elementArray[ind] =
-                    (<span unselectable="on"  style={{color: 'red'}} key={Math.random()}>
-                        {prev[progressState.currentWord].content[ind]}
-                        </span>) 
-                    } else{
-                        prev[progressState.currentWord].elementArray[ind] =
-                    (<span unselectable="on"  style={{color: 'blue'}} key={Math.random()}>
-                        {prev[progressState.currentWord].content[ind]}
-                        </span>) 
+    
+                        prev[progressState.currentWord].elementArray[ind] = spanElement('red', prev[progressState.currentWord].content[ind])
+                    } else {
+                        prev[progressState.currentWord].elementArray[ind] = spanElement('black', prev[progressState.currentWord].content[ind])
                     }
                     
                 })
