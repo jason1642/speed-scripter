@@ -11,7 +11,6 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     const wordList = stringGoal.split(' ')
     const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, currentWordLetterIndex: 0, charactersCorrect: 0, resultString: ''})
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: 'There is an error in your input', errorFirstIndex: undefined})
-
     const [wordElementMap, setWordElementMap] = useState<WordElementMapTypes>( 
         wordList.map((e, i)=>
             ({
@@ -43,21 +42,35 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     
 
     const compareFunction = async (challengeString: string, userInput:string) => {
-        // console.log('last letter ' + userInput[userInput.length - 1] ,  wordList[progressState.currentWord][userInput.length - 1])
-        // console.log(wordList[progressState.currentWord][userInput.length - 1])
-        if(userInput[userInput.length - 1] === wordList[progressState.currentWord][userInput.length - 1]){
-            // console.log('That is the correct letter!!')
-            setProgressState(prev=>({...prev, currentWordLetterIndex: prev.currentWordLetterIndex + 1}))
+       
+        setProgressState(prev=>({...prev, currentWordLetterIndex: userInput.length }))
+        if(userInput[userInput.length - 1] === wordList[progressState.currentWord][0 | userInput.length - 1]){
+            console.log('This input matches the goal word: ' +  userInput[userInput.length - 1])
+            console.log(userInput.length)
+            // setProgressState(prev=>({...prev, currentWordLetterIndex: userInput.length }))
             setWordElementMap(prev=>{
-                let tempArr = prev
-                // console.log(prev[progressState.currentWord].elementArray)
-                tempArr[progressState.currentWord].elementArray[progressState.currentWordLetterIndex] =
+
+                prev[progressState.currentWord].elementArray.forEach((ele, ind) => {
+                    if(userInput[ind] == prev[progressState.currentWord].content[ind]){
+                        prev[progressState.currentWord].elementArray[ind] =
                     (<span unselectable="on" style={{color: 'green'}} className='.correct-input' key={Math.random()}>
-                        {prev[progressState.currentWord].content[progressState.currentWordLetterIndex]}
-                        </span>)
-                return ([
-                    ...prev
-                ])
+                        {prev[progressState.currentWord].content[ind]}
+                        </span>) 
+                    }else {
+                        prev[progressState.currentWord].elementArray[ind] =
+                    (<span unselectable="on" className='.nuetral-input' key={Math.random()}>
+                        {prev[progressState.currentWord].content[ind]}
+                        </span>) 
+                    }
+                    
+                })
+               
+                      
+                    // prev[progressState.currentWord].elementArray[progressState.currentWordLetterIndex + 1] =
+                    // (<span unselectable="on"  className='.nuetral-input' key={Math.random()}>
+                    //     {prev[progressState.currentWord].content[progressState.currentWordLetterIndex + 1]}
+                    //     </span>)
+                return ([ ...prev ])
             })
         }
      
@@ -65,7 +78,6 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                 alert('You have completed the race in # seconds')
                 return
             }
-        console.log('User Input: ' + userInput)
     }
 
     useEffect(()=>{
