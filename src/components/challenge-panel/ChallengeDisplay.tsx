@@ -1,6 +1,8 @@
+'use client'
 import { useEffect,useState, FunctionComponent } from "react";
 import styled from 'styled-components';
 import {IChallengeDisplayProps, IProgressStateProps, ITimerProps, WordElementMapTypes, ErrorTypes, WordsTypes} from './types'
+import useTimer from '../Timer'
 import './letterHighlights.css'
 
 const Container = styled.div`
@@ -11,6 +13,9 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     const wordList = stringGoal.split(' ')
     const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, currentWordLetterIndex: 0, charactersCorrect: 0, resultString: ''})
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: 'There is an error in your input', errorFirstIndex: undefined})
+    const timeLeft = useTimer({seconds: 120})
+    const [timerState, setTimerState] = useState<ITimerProps>({totalSeconds: stringGoal.length * 8, status: 'stop', timeElapsed: 0, })
+
     const [wordElementMap, setWordElementMap] = useState<WordElementMapTypes>( 
         wordList.map((e, i)=>
             ({ id:i,
@@ -34,29 +39,28 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     }
     
     const compareFunction = async (challengeString: string, userInput:string) => {
-        
-        setProgressState(prev=>({...prev, currentWordLetterIndex: userInput.length }))
-        
-            setWordElementMap(prev=>{
-                let prevCharsInStringCorrect = true
-                prev[progressState.currentWord].elementArray.forEach((ele, ind) => {
-                
-
-                    let spanElement =  (color:string, letter:string)=>
+         let spanElement =  (color:string, letter:string)=>
                      <span unselectable="on" style={{
                         color: color !== 'red' ? color : 'black',
                          backgroundColor: color === 'red' ? '#ff8a8a' : 'none',
                          borderLeft: userInput.length
                         }} key={Math.random()}>{letter}</span>
 
+        setProgressState(prev=>({...prev, currentWordLetterIndex: userInput.length }))
+
+            setWordElementMap(prev=>{
+                let prevCharsInStringCorrect = true
+
+                prev[progressState.currentWord].elementArray.forEach((ele, ind) => {
+                    let currentLetter = prev[progressState.currentWord].content[ind]
                     if(userInput[ind] == prev[progressState.currentWord].content[ind] && prevCharsInStringCorrect && userInput.length >= ind){
                        prevCharsInStringCorrect = true
-                        prev[progressState.currentWord].elementArray[ind] = spanElement('green', prev[progressState.currentWord].content[ind])
+                        prev[progressState.currentWord].elementArray[ind] = spanElement('green', currentLetter)
                     } else if ( userInput.length > ind && userInput[ind] !== prev[progressState.currentWord].content[ind] ){
                        prevCharsInStringCorrect = false
-                        prev[progressState.currentWord].elementArray[ind] = spanElement('red', prev[progressState.currentWord].content[ind])
+                        prev[progressState.currentWord].elementArray[ind] = spanElement('red', currentLetter)
                     } else {
-                        prev[progressState.currentWord].elementArray[ind] = spanElement('black', prev[progressState.currentWord].content[ind])
+                        prev[progressState.currentWord].elementArray[ind] = spanElement('black', currentLetter)
                     }
                     
                 })
@@ -89,7 +93,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
 
             </div> 
       <div style={{color: "red"}}>{error.hasError ? `Message: ${error.message}` : ''}</div>
-
+                {timeLeft}
   </Container>
   )
 }

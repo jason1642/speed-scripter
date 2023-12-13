@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from 'react'
 import styled from 'styled-components';
 
-const Container = styled.div`
+const Container = styled.span`
   
 `;
 
@@ -9,7 +9,9 @@ interface ITimerProps {
     seconds: number;
 }
 
-const Timer: React.FunctionComponent<ITimerProps> = ({seconds}) => {
+
+// WPM? 
+const useTimer: React.FunctionComponent<ITimerProps> = ({seconds}) => {
   
   const [timeLeft, setTimeLeft ] = useState(seconds)
   const intervalRef:any = useRef()
@@ -27,18 +29,14 @@ const Timer: React.FunctionComponent<ITimerProps> = ({seconds}) => {
   
  // Add a listener to `timeLeft`
  useEffect(() => {
-    console.log(timeLeft)
+    console.log(~~((timeLeft % 3600) / 60).toFixed(5))
 
     if (timeLeft <= 0) {
       clearInterval(intervalRef.current);
     }
   }, [timeLeft]);
 
-    return (
-    <Container>
-
-    </Container>
-  );
+    return (`${~~((timeLeft % 3600) / 60).toFixed(2)}`);
 };
 
-export default Timer;
+export default useTimer;

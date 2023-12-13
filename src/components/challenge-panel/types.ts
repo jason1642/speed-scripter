@@ -4,6 +4,12 @@ export interface IChallengeDisplayProps {
     clearUserInput(): any;
 }
 
+export interface ITimerProps { 
+    totalSeconds: number;
+    status: 'active' | 'stop' | 'end' | 'pause';
+    timeElapsed: number;
+}
+
 export interface IProgressStateProps {
     // Divide typed characters by 5
     wordsPerMinute: number;
@@ -21,10 +27,7 @@ export type WordElementMapTypes = Array< {
     elementArray: React.ReactElement[];
 }>
 
-export interface ITimerProps {
-    timeElapsed: number;
-    state: 'active' | 'paused' | 'stop';
-}
+
 
 export type ErrorTypes = {
     hasError: boolean;
