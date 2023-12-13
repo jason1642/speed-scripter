@@ -34,24 +34,26 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     }
     
     const compareFunction = async (challengeString: string, userInput:string) => {
+        
         setProgressState(prev=>({...prev, currentWordLetterIndex: userInput.length }))
+        
             setWordElementMap(prev=>{
                 let prevCharsInStringCorrect = true
                 prev[progressState.currentWord].elementArray.forEach((ele, ind) => {
                 
 
                     let spanElement =  (color:string, letter:string)=>
-                     <span unselectable="on" style={{color: color !== 'red' ? color : 'black', backgroundColor: color === 'red' ? '#ff8a8a' : 'none'}} key={Math.random()}>{letter}</span>
+                     <span unselectable="on" style={{
+                        color: color !== 'red' ? color : 'black',
+                         backgroundColor: color === 'red' ? '#ff8a8a' : 'none',
+                         borderLeft: userInput.length
+                        }} key={Math.random()}>{letter}</span>
 
                     if(userInput[ind] == prev[progressState.currentWord].content[ind] && prevCharsInStringCorrect && userInput.length >= ind){
                        prevCharsInStringCorrect = true
                         prev[progressState.currentWord].elementArray[ind] = spanElement('green', prev[progressState.currentWord].content[ind])
-
-                        // Check if userinput is long enough to reach index and is the incorrect letter. 
-                        // Skip this check if prevCharsInStringCorrect = false or continue highlighting red for each corresponding letter incorrectly typed
                     } else if ( userInput.length > ind && userInput[ind] !== prev[progressState.currentWord].content[ind] ){
                        prevCharsInStringCorrect = false
-    
                         prev[progressState.currentWord].elementArray[ind] = spanElement('red', prev[progressState.currentWord].content[ind])
                     } else {
                         prev[progressState.currentWord].elementArray[ind] = spanElement('black', prev[progressState.currentWord].content[ind])

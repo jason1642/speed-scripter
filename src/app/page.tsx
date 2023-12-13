@@ -1,11 +1,15 @@
+'use client'
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-
+import Timer from '@/components/Timer'
 
 
 
 export default function Home() {
+
+
+
   return (
     <React.Fragment>
     <Head>
@@ -26,6 +30,11 @@ export default function Home() {
             Challenge Mode
           </Link>
         </p>
+
+
+
+
+    <Timer seconds={5}/>
       
       </div>
     </main>
