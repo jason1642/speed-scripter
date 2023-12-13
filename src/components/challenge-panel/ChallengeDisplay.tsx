@@ -26,18 +26,23 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                     ]
                 })))
 
-    const handleNextWordMove = () =>{ 
+    const handleNextWordMove = () =>{
+        
+        console.log(wordList[progressState.currentWord].length)
+        // Check if last word was correctly typed out. Then run something similar to this to update stats but remove the space at the last word 
         if (userInput.trim() === wordList[progressState.currentWord] && userInput.endsWith(' ') && userInput.length === wordList[progressState.currentWord].length + 1){
             clearUserInput()
             setProgressState(prev=>({
                 ...prev,
+                wordsPerMinute: (prev.charactersCorrect + wordList[progressState.currentWord].length + 1) / 5,
+                charactersCorrect: prev.charactersCorrect + wordList[progressState.currentWord].length + 1,
                 resultString: prev.resultString + userInput,
                 currentWordLetterIndex: 0,
                 currentWord: prev.currentWord + 1,
             }))
         }
     }
-    
+
     const compareFunction = async (challengeString: string, userInput:string) => {
          let spanElement =  (color:string, letter:string)=>
                      <span unselectable="on" style={{
@@ -54,10 +59,10 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                 prev[progressState.currentWord].elementArray.forEach((ele, ind) => {
                     let currentLetter = prev[progressState.currentWord].content[ind]
                     if(userInput[ind] == prev[progressState.currentWord].content[ind] && prevCharsInStringCorrect && userInput.length >= ind){
-                       prevCharsInStringCorrect = true
+                        prevCharsInStringCorrect = true
                         prev[progressState.currentWord].elementArray[ind] = spanElement('green', currentLetter)
                     } else if ( userInput.length > ind && userInput[ind] !== prev[progressState.currentWord].content[ind] ){
-                       prevCharsInStringCorrect = false
+                        prevCharsInStringCorrect = false
                         prev[progressState.currentWord].elementArray[ind] = spanElement('red', currentLetter)
                     } else {
                         prev[progressState.currentWord].elementArray[ind] = spanElement('black', currentLetter)
@@ -77,7 +82,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     useEffect(()=>{
             compareFunction(stringGoal, userInput)
             userInput && handleNextWordMove()
-            console.log('input changed')
+            console.log('input changed', progressState.wordsPerMinute)
     },[userInput, stringGoal])
 
   return  (<Container>
