@@ -1,4 +1,4 @@
-import { useEffect, useMemo, ReactElement,useState, FunctionComponent } from "react";
+import { useEffect,useState, FunctionComponent } from "react";
 import styled from 'styled-components';
 import {IChallengeDisplayProps, IProgressStateProps, ITimerProps, WordElementMapTypes, ErrorTypes, WordsTypes} from './types'
 import './letterHighlights.css'
@@ -13,21 +13,15 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: 'There is an error in your input', errorFirstIndex: undefined})
     const [wordElementMap, setWordElementMap] = useState<WordElementMapTypes>( 
         wordList.map((e, i)=>
-            ({
-                id:i,
+            ({ id:i,
                 content: e, 
-                elementArray: [...e.split('').map((item, index) =>
-                                    <span 
-                                    unselectable="on"
-                                    key={item + index.toString()}
-                                    >{item}
-                                    </span>), 
-                                    (i !== wordList.length - 1 ? <span key={`${e}${e.length * i + 55}`}> </span> : <></>)
-                                ]
+                elementArray: [
+                    ...e.split('').map((item, index) => <span unselectable="on"key={item + index.toString()}>{item}</span>), 
+                    (i !== wordList.length - 1 ? <span key={`${e}${e.length * i + 55}`}> </span> : <></>)
+                    ]
                 })))
 
-    const handleNextWordMove = ()=>{ 
-        console.log('userinput' + userInput + 'endofuserinput')
+    const handleNextWordMove = () =>{ 
         if (userInput.trim() === wordList[progressState.currentWord] && userInput.endsWith(' ') && userInput.length === wordList[progressState.currentWord].length + 1){
             clearUserInput()
             setProgressState(prev=>({
@@ -36,12 +30,10 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                 currentWordLetterIndex: 0,
                 currentWord: prev.currentWord + 1,
             }))
-            console.log('You successfully typed the entire word withe a space')
         }
     }
     
     const compareFunction = async (challengeString: string, userInput:string) => {
-       
         setProgressState(prev=>({...prev, currentWordLetterIndex: userInput.length }))
             setWordElementMap(prev=>{
                 let prevCharsInStringCorrect = true
@@ -49,7 +41,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                 
 
                     let spanElement =  (color:string, letter:string)=>
-                     <span unselectable="on" style={{color: color}} key={Math.random()}>{letter}</span>
+                     <span unselectable="on" style={{color: color !== 'red' ? color : 'black', backgroundColor: color === 'red' ? '#ff8a8a' : 'none'}} key={Math.random()}>{letter}</span>
 
                     if(userInput[ind] == prev[progressState.currentWord].content[ind] && prevCharsInStringCorrect && userInput.length >= ind){
                        prevCharsInStringCorrect = true
@@ -74,8 +66,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     if(challengeString === progressState.resultString){
                 alert('You have completed the race in # seconds')
                 return
-            }
-    }
+            }}
 
     useEffect(()=>{
             compareFunction(stringGoal, userInput)
@@ -84,18 +75,17 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     },[userInput, stringGoal])
 
   return  (<Container>
-
           <div style={{fontSize: '2em'}}>
-            {
-            wordElementMap.map(item=> (<span
+
+            {wordElementMap.map(item=> (<span
             style={{borderBottom: progressState.currentWord === item.id ? '1px solid black' : 'none'}}
              key={item.id} 
              >
                 {[...item.elementArray]}
                 </span>)
-                )
-            }</div> 
-    
+                )}
+
+            </div> 
       <div style={{color: "red"}}>{error.hasError ? `Message: ${error.message}` : ''}</div>
 
   </Container>
