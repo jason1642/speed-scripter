@@ -34,7 +34,7 @@ export default function Home() {
 
 
 
-    <Timer seconds={5}/>
+    {/* <Timer seconds={5}/> */}
       
       </div>
     </main>

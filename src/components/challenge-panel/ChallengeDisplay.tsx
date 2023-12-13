@@ -13,8 +13,8 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     const wordList = stringGoal.split(' ')
     const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, currentWordLetterIndex: 0, charactersCorrect: 0, resultString: ''})
     const [error,setError ] = useState<ErrorTypes>({hasError: false, message: 'There is an error in your input', errorFirstIndex: undefined})
-    const timeLeft = useTimer({seconds: 120})
     const [timerState, setTimerState] = useState<ITimerProps>({totalSeconds: stringGoal.length * 8, status: 'stop', timeElapsed: 0, })
+    const timeLeft = useTimer({seconds: 120, setTimeElapsed: (elapsedTime: number)=>{setTimerState(prev=>({...prev, timeElapsed: elapsedTime }))}})
 
     const [wordElementMap, setWordElementMap] = useState<WordElementMapTypes>( 
         wordList.map((e, i)=>
@@ -28,18 +28,19 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
 
     const handleNextWordMove = () =>{
         
-        console.log(wordList[progressState.currentWord].length)
         // Check if last word was correctly typed out. Then run something similar to this to update stats but remove the space at the last word 
         if (userInput.trim() === wordList[progressState.currentWord] && userInput.endsWith(' ') && userInput.length === wordList[progressState.currentWord].length + 1){
             clearUserInput()
             setProgressState(prev=>({
                 ...prev,
-                wordsPerMinute: (prev.charactersCorrect + wordList[progressState.currentWord].length + 1) / 5,
+                wordsPerMinute: ((prev.charactersCorrect + wordList[progressState.currentWord].length + 1) / 5) / (timerState.timeElapsed / 60),
                 charactersCorrect: prev.charactersCorrect + wordList[progressState.currentWord].length + 1,
                 resultString: prev.resultString + userInput,
                 currentWordLetterIndex: 0,
                 currentWord: prev.currentWord + 1,
             }))
+            console.log((Math.round(progressState.charactersCorrect + wordList[progressState.currentWord].length + 1) / 5) / (timerState.timeElapsed / 60), timerState.timeElapsed)
+
         }
     }
 
@@ -82,7 +83,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     useEffect(()=>{
             compareFunction(stringGoal, userInput)
             userInput && handleNextWordMove()
-            console.log('input changed', progressState.wordsPerMinute)
+            console.log('WPM:', progressState.wordsPerMinute)
     },[userInput, stringGoal])
 
   return  (<Container>
