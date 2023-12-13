@@ -16,11 +16,18 @@ const useTimer: React.FunctionComponent<ITimerProps> = ({seconds}) => {
   const [timeLeft, setTimeLeft ] = useState(seconds)
   const intervalRef:any = useRef()
 
+  const convertTimeToString: () => string = ()=> {
+    const hoursTime = Math.floor(timeLeft / 3600)
+    const minutesTime = Math.floor((timeLeft - (hoursTime * 3600) )/ 60) 
+    const secondsTime = timeLeft - (hoursTime * 3600 ) - (minutesTime * 60)
+    // console.log(timeLeft)
+    // console.log(minutesTime, secondsTime)
+    return `${minutesTime}:${secondsTime}${secondsTime === 0 ? '0' : ''}`
+    }
 
   useEffect(()=>{
     intervalRef.current = setInterval(()=>{
         setTimeLeft((t:number)=>t - 1)
-
     }, 1000)
 
     return ()=> clearInterval(intervalRef.current)
@@ -29,14 +36,15 @@ const useTimer: React.FunctionComponent<ITimerProps> = ({seconds}) => {
   
  // Add a listener to `timeLeft`
  useEffect(() => {
-    console.log(~~((timeLeft % 3600) / 60).toFixed(5))
+    console.log()
 
     if (timeLeft <= 0) {
       clearInterval(intervalRef.current);
     }
+    convertTimeToString()
   }, [timeLeft]);
 
-    return (`${~~((timeLeft % 3600) / 60).toFixed(2)}`);
+    return (convertTimeToString());
 };
 
 export default useTimer;
