@@ -9,11 +9,15 @@ const Container = styled.div`
   display:flex;
   padding: 1rem;
   border: 1px solid black;
-  max-width: 1500px;
+  max-width: 1280px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 `;
 
 const ChallengeStringBox = styled.div`
-  
+  /* display:flex; */
+    font-size: 2em;
 `;
 
 const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal, clearUserInput, userInput}) => {
@@ -94,7 +98,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     },[userInput, stringGoal])
 
   return  (<Container>
-          <ChallengeStringBox style={{fontSize: '2em'}}>
+          <ChallengeStringBox>
 
             {wordElementMap.map(item=> (<span
             style={{borderBottom: progressState.currentWord === item.id ? '1px solid black' : 'none'}}
@@ -107,6 +111,8 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             </ChallengeStringBox> 
       <div style={{color: "red"}}>{error.hasError ? `Message: ${error.message}` : ''}</div>
                 {timeLeft}
+                
+
   </Container>
   )
 }

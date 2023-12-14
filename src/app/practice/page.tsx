@@ -28,15 +28,10 @@ const Practice: React.FunctionComponent<IAppProps> = () => {
     <p>
 
     <ChallengeDisplay clearUserInput={clearUserInput} stringGoal={practiceString} userInput={userInput}/>
-        
-        <input
-        style={{width: '900px'}}
-         onChange={(e)=>{setUserInput(e.target.value)}} 
-         value={userInput}
-         placeholder='Start typing...'
-          />
 
           <UserInput
+                   onChange={(e)=>{setUserInput(e.target.value)}} 
+            value={userInput}
            />
 
     </p>
