@@ -1,4 +1,3 @@
-'use client'
 
 import NoLoginHeader from "@/components/headers/NoLoginHeader";
 

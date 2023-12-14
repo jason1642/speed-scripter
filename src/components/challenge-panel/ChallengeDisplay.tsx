@@ -1,25 +1,23 @@
-'use client'
+// 'use client'
 import { useEffect,useState, FunctionComponent } from "react";
 import styled from 'styled-components';
 import {IChallengeDisplayProps, IProgressStateProps, ITimerProps, WordElementMapTypes, ErrorTypes, WordsTypes} from './types'
 import useTimer from '../Timer'
 import './letterHighlights.css'
 
-const Container = styled.div`
-  display:flex;
+const Container = styled.p`
+/*  */
   padding: 1rem;
     background-color: grey;
   /* max-width: 1280px; */
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: 0 auto; 
+  font-size: 2em;
 `;
 
-const ChallengeStringBox = styled.div`
-  /* display:flex; */
-    font-size: 2em;
-`;
 
+ 
 const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal, clearUserInput, userInput, handleChangeErrorState}) => {
     const wordList = stringGoal.split(' ')
     const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, currentWordLetterIndex: 0, charactersCorrect: 0, resultString: ''})
@@ -97,18 +95,25 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             console.log('WPM:', progressState.wordsPerMinute)
     },[userInput, stringGoal])
 
-  return  (<Container>
-          <ChallengeStringBox>
 
-            {wordElementMap.map(item=> (<span
+    useEffect(()=>{
+        handleChangeErrorState(error)
+        console.log('error in string, from useeffect')
+    },[error])
+  return  (<Container>
+          
+
+            {
+            wordElementMap.map(item=> (<span
             style={{borderBottom: progressState.currentWord === item.id ? '1px solid black' : 'none'}}
              key={item.id} 
              >
                 {[...item.elementArray]}
                 </span>)
-                )}
+                )
+                }
 
-            </ChallengeStringBox> 
+           
                 {timeLeft}
 
 

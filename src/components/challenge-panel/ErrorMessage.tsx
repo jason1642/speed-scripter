@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import styled from 'styled-components';
 import { ErrorTypes } from './types';
@@ -22,3 +23,4 @@ const ErrorMessage: React.FunctionComponent<IErrorMessageProps> = ({errorState})
 };
 
 export default ErrorMessage;
+ 

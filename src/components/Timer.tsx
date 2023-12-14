@@ -1,10 +1,10 @@
-import { time } from 'console';
-import {useState, useEffect, useRef, SetStateAction} from 'react'
+'use client'
+import {useState, useEffect, useRef} from 'react'
 import styled from 'styled-components';
 
-const Container = styled.span`
+// const Container = styled.span`
   
-`;
+// `;
 
 interface ITimerProps {
     seconds: number;

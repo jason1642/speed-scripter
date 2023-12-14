@@ -1,3 +1,5 @@
+'use client'
+
 export interface IChallengeDisplayProps {
     stringGoal: string;
     userInput: string;

@@ -47,8 +47,14 @@ const Practice: React.FunctionComponent<IAppProps> = () => {
   return(
     <Container>
 
-    <ChallengeDisplay handleChangeErrorState={handleChangeErrorState} clearUserInput={clearUserInput} stringGoal={practiceString} userInput={userInput}/>
-    <ErrorMessage errorState={errorState} />
+    <ChallengeDisplay
+     handleChangeErrorState={handleChangeErrorState}
+      clearUserInput={clearUserInput}
+       stringGoal={practiceString} 
+       userInput={userInput}
+       />
+    
+        <ErrorMessage errorState={errorState} />
           <UserInput
           errorState={errorState}
                    onChange={(e)=>{setUserInput(e.target.value)}} 
