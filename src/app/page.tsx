@@ -17,7 +17,7 @@ export default function Home() {
     </Head>
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
     <div>
-        <p>
+        <p className='text-3xl'>
           ⚡ TypeRally ⚡ This is the home page, will have links to go to practice mode or page to select which race you want to do
           <br></br>
           <Link href="/next">

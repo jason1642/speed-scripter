@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react';
 import ChallengeDisplay from '../../components/challenge-panel/ChallengeDisplay';
+import UserInput from '@/components/challenge-panel/UserInput';
 
 interface IAppProps {
 
@@ -34,6 +35,8 @@ const Practice: React.FunctionComponent<IAppProps> = () => {
          value={userInput}
          placeholder='Start typing...'
           />
+
+          <UserInput />
 
     </p>
   );
