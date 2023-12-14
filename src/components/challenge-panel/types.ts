@@ -2,7 +2,8 @@ export interface IChallengeDisplayProps {
     stringGoal: string;
     userInput: string;
     clearUserInput(): any;
-}
+    handleChangeErrorState(err: ErrorTypes): void;
+}2
 
 export interface ITimerProps { 
     totalSeconds: number;
