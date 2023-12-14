@@ -7,6 +7,13 @@ import './letterHighlights.css'
 
 const Container = styled.div`
   display:flex;
+  padding: 1rem;
+  border: 1px solid black;
+  max-width: 1500px;
+`;
+
+const ChallengeStringBox = styled.div`
+  
 `;
 
 const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal, clearUserInput, userInput}) => {
@@ -87,7 +94,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     },[userInput, stringGoal])
 
   return  (<Container>
-          <div style={{fontSize: '2em'}}>
+          <ChallengeStringBox style={{fontSize: '2em'}}>
 
             {wordElementMap.map(item=> (<span
             style={{borderBottom: progressState.currentWord === item.id ? '1px solid black' : 'none'}}
@@ -97,7 +104,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                 </span>)
                 )}
 
-            </div> 
+            </ChallengeStringBox> 
       <div style={{color: "red"}}>{error.hasError ? `Message: ${error.message}` : ''}</div>
                 {timeLeft}
   </Container>

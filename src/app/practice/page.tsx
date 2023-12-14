@@ -36,7 +36,8 @@ const Practice: React.FunctionComponent<IAppProps> = () => {
          placeholder='Start typing...'
           />
 
-          <UserInput />
+          <UserInput
+           />
 
     </p>
   );

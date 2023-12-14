@@ -1,13 +1,20 @@
 import * as React from 'react';
+import TextField from '@mui/material/TextField';
 
 interface IUserInputProps {
 }
 
 const UserInput: React.FunctionComponent<IUserInputProps> = (props) => {
-  return (
-    <div>
-            user inpit
-    </div>
+  
+  
+  
+    return (
+    <TextField
+        id=""
+        label="outlined"
+        variant='outlined'
+        placeholder='Start typing...'
+    />
   );
 };
 
