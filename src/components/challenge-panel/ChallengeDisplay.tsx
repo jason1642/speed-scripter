@@ -1,5 +1,5 @@
 // 'use client'
-import { useEffect,useState, FunctionComponent } from "react";
+import { useEffect,useState, FunctionComponent, Fragment } from "react";
 import styled from 'styled-components';
 import {IChallengeDisplayProps, IProgressStateProps, ITimerProps, WordElementMapTypes, ErrorTypes, WordsTypes} from './types'
 import useTimer from '../Timer'
@@ -28,10 +28,11 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     const [wordElementMap, setWordElementMap] = useState<WordElementMapTypes>( 
         wordList.map((e, i)=>
             ({ id:i,
+                key:i,
                 content: e, 
                 elementArray: [
                     ...e.split('').map((item, index) => <span unselectable="on"key={item + index.toString()}>{item}</span>), 
-                    (i !== wordList.length - 1 ? <span key={`${e}${e.length * i + 55}`}> </span> : <></>)
+                    (i !== wordList.length - 1 ? <span key={`${e}${e.length * i + 55}`}> </span> : <Fragment key={`${e}${e.length * i + 55}`}></Fragment>)
                     ]
                 })))
 
@@ -81,6 +82,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                 })
                 prev[progressState.currentWord].elementArray[prev[progressState.currentWord].elementArray.length] = 
                 (<span unselectable="on"  key={Math.random()}> </span>) 
+                console.log([...prev])
                 return ([ ...prev ])
             })
      
