@@ -1,20 +1,15 @@
 'use client'
 import Link from 'next/link';
 import * as React from 'react';
-import styled from 'styled-components';
 
 
-const Container = styled.div`
-  display: flex;
-  font-size: 3em;
-`;
 
 interface INoLoginHeaderProps {
 }
 
 const NoLoginHeader: React.FunctionComponent<INoLoginHeaderProps> = () => {
   return (
-    <Container>
+    <div className='flex-1 text-5xl'>
         This is the header
 
 
@@ -34,7 +29,7 @@ const NoLoginHeader: React.FunctionComponent<INoLoginHeaderProps> = () => {
         >
             Home
         </Link>
-    </Container>
+    </div>
   );
 };
 

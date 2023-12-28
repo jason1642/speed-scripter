@@ -7,13 +7,13 @@ import './letterHighlights.css'
 
 const Container = styled.p`
 /*  */
-  padding: 1rem;
-    background-color: grey;
+  /* padding: 1rem; */
+    /* background-color: grey; */
   /* max-width: 1280px; */
-  justify-content: center;
+  /* justify-content: center;
   align-items: center;
   margin: 0 auto; 
-  font-size: 2em;
+  font-size: 2em; */
 `;
 
 
@@ -102,7 +102,9 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
         handleChangeErrorState(error)
         console.log('error in string, from useeffect')
     },[error])
-  return  (<Container>
+  return  (<Container
+            className="bg-blue-800 p-4 items-center text-2xl justify-center"
+  >
           
 
             {

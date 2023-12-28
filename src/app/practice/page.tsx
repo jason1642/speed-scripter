@@ -4,29 +4,11 @@ import ChallengeDisplay from '../../components/challenge-panel/ChallengeDisplay'
 import UserInput from '@/components/challenge-panel/UserInput';
 import { ErrorTypes } from '@/components/challenge-panel/types';
 import ErrorMessage from '@/components/challenge-panel/ErrorMessage'
-import styled from 'styled-components';
 
 interface IAppProps {
 
 }
-const Container = styled.div`
-   display:flex;
-   flex-direction: column;
-  padding: 1rem;
-  border: 1px solid black;
-  max-width: 1280px;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-`;
 
-// type challengeTypes = Array< {
-//     id: number;
-//     character: string;
-//     element: React.ReactElement;
-    
-
-// }>
 
 const practiceString: string = 'This is the practice string from this challenge. @-#$ Your input should be identical to this!'
 
@@ -45,7 +27,8 @@ const Practice: React.FunctionComponent<IAppProps> = () => {
     }
 
   return(
-    <Container>
+    <div 
+      className='flex-1 flex-col p-4 border-sky-950 border max-w-screen-xl my-0 mx-auto align-center justify-center'>
 
     <ChallengeDisplay
      handleChangeErrorState={handleChangeErrorState}
@@ -61,7 +44,7 @@ const Practice: React.FunctionComponent<IAppProps> = () => {
             value={userInput}
            />
 
-    </Container>
+    </div>
   );
 };
 

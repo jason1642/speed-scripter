@@ -1,6 +1,5 @@
 'use client'
 import * as React from 'react';
-import TextField from '@mui/material/TextField';
 import { ErrorTypes } from './types';
 
 interface IUserInputProps {
@@ -9,9 +8,7 @@ interface IUserInputProps {
     errorState: ErrorTypes;
 }
 
-const styles = {
-    width: '100%'
-}
+
 
 
 const UserInput: React.FunctionComponent<IUserInputProps> = ({onChange, value, errorState}) => {
@@ -19,12 +16,13 @@ const UserInput: React.FunctionComponent<IUserInputProps> = ({onChange, value, e
   
   
     return (
-    <TextField
-    sx={styles}
+    <input
+        
         id=""
         value={value}
-        label="outlined"
-        variant='outlined'
+        className='w-full p-3 text-xl'
+        // label="outlined"
+        // variant='outlined'
         placeholder='Start typing...'
         onChange={onChange}
     />
