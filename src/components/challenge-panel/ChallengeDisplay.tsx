@@ -103,7 +103,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
         console.log('error in string, from useeffect')
     },[error])
   return  (<Container
-            className="bg-blue-800 p-4 items-center text-2xl justify-center"
+            className=" p-4 items-center text-3xl justify-center"
   >
           
 
