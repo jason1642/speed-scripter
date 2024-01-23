@@ -7,12 +7,12 @@ interface IErrorMessageProps {
 }
 
 const ErrorMessage: React.FunctionComponent<IErrorMessageProps> = ({errorState}) => {
-  return (
+  return errorState.hasError ? (
     <div className='flex-1 text-red-700 h-1.5'>
-              {errorState.hasError ? `Message: ${errorState.message}` : ''}
+              {`Message: ${errorState.message}` }
 
     </div>
-  );
+  ) : <></>
 };
 
 export default ErrorMessage;

@@ -28,7 +28,8 @@ const Practice: React.FunctionComponent<IAppProps> = () => {
 
   return(
     <div 
-      className='flex-1 flex-col p-4 border-sky-950 border max-w-screen-xl my-0 mx-auto align-center justify-center'>
+    style={{boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}}
+      className='flex-1 flex-col p-4 border max-w-screen-xl my-4 mx-auto align-center justify-center'>
 
     <ChallengeDisplay
      handleChangeErrorState={handleChangeErrorState}

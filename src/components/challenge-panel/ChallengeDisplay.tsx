@@ -22,7 +22,7 @@ const Container = styled.p`
 const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal, clearUserInput, userInput, handleChangeErrorState}) => {
     const wordList = stringGoal.split(' ')
     const [progressState, setProgressState] = useState<IProgressStateProps>({ wordsPerMinute: 0, currentWord: 0, currentWordLetterIndex: 0, charactersCorrect: 0, resultString: ''})
-    const [error,setError ] = useState<ErrorTypes>({hasError: true, message: 'There is an error in your input', errorFirstIndex: undefined})
+    const [error,setError ] = useState<ErrorTypes>({hasError: false, message: 'There is an error in your input', errorFirstIndex: undefined})
     const [timerState, setTimerState] = useState<ITimerProps>({totalSeconds: stringGoal.length * 8, status: 'stop', timeElapsed: 0, })
     const timeLeft = useTimer({seconds: 120, setTimeElapsed: (elapsedTime: number)=>{setTimerState(prev=>({...prev, timeElapsed: elapsedTime }))}})
 
@@ -108,8 +108,17 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
   return  (<Container
             className=" p-4 items-center text-3xl justify-center"
   >
-          
-                    <ProgressBar progressPercentage={progressState.resultString.length / stringGoal.length}/>
+          <div >
+
+        <div className="flex flex-row justify-around width-full">
+            <p className="inline-block"> {timeLeft}</p>
+            <p className='inline-block self-end'>WPM: {Math.floor(progressState.wordsPerMinute)}</p>
+
+        </div>
+
+
+                                <ProgressBar progressPercentage={progressState.resultString.length / stringGoal.length}/>
+          </div>
 
           
 
@@ -127,7 +136,7 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
        
 
            
-                {timeLeft}
+               
 
 
   </Container>
