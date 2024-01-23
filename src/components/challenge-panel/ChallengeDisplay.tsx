@@ -1,9 +1,10 @@
-// 'use client'
+'use client'
 import { useEffect,useState, FunctionComponent, Fragment } from "react";
 import styled from 'styled-components';
 import {IChallengeDisplayProps, IProgressStateProps, ITimerProps, WordElementMapTypes, ErrorTypes, WordsTypes} from './types'
 import useTimer from '../Timer'
 import './letterHighlights.css'
+import ProgressBar from "./ProgressBar";
 
 const Container = styled.p`
 /*  */
@@ -94,7 +95,9 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
     useEffect(()=>{
             compareFunction(stringGoal, userInput)
             userInput && handleNextWordMove()
-            console.log('WPM:', progressState.wordsPerMinute)
+            // console.log('WPM:', progressState.wordsPerMinute)
+            // console.log(Math.floor(progressState.resultString.length / stringGoal.length))
+            console.log(progressState.resultString.length)
     },[userInput, stringGoal])
 
 
@@ -106,8 +109,12 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
             className=" p-4 items-center text-3xl justify-center"
   >
           
+                    <ProgressBar progressPercentage={progressState.resultString.length / stringGoal.length}/>
 
-            {
+          
+
+        <div>
+                 {
             wordElementMap.map(item=> (<span
             style={{borderBottom: progressState.currentWord === item.id ? '1px solid black' : 'none'}}
              key={item.id} 
@@ -116,6 +123,8 @@ const ChallengeDisplay: FunctionComponent<IChallengeDisplayProps> = ({stringGoal
                 </span>)
                 )
                 }
+        </div>
+       
 
            
                 {timeLeft}
