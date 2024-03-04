@@ -7,7 +7,7 @@ interface IprojectDirectoryLayoutProps {
 const ChallengesLayout: React.FunctionComponent<IprojectDirectoryLayoutProps> = ({children}) => {
   return (
     <section>
-        <NoLoginHeader />
+        {/* <NoLoginHeader /> */}
 
         {children}
     </section>

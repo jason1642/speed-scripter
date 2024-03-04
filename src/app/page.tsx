@@ -2,8 +2,6 @@
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-// import Timer from '@/components/Timer'
-
 
 
 export default function Home() {
@@ -16,19 +14,26 @@ export default function Home() {
       <title>Speed Scripter</title> 
     </Head>
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+
     <div>
         <p >
           ⚡ TypeRally ⚡ This is the home page, will have links to go to practice mode or page to select which race you want to do
           <br></br>
-          <Link href="/next">
+          {/* <Link href="/next">
             Go to next page
-          </Link>
-          <Link href="/practice">
+          </Link> */}
+          <div className='flex border w-auto p-4'>
+
+                <Link 
+                className='w-auto p-4 bg-sky-500 rounded hover:bg-sky-400'
+                 href="/practice">
             Practice Mode
           </Link>
-          <Link href="/challenges">
+          </div>
+      
+          {/* <Link href="/challenges">
             Challenge Mode
-          </Link>
+          </Link> */}
         </p>
 
 

@@ -20,7 +20,7 @@ const UserInput: React.FunctionComponent<IUserInputProps> = ({onChange, value, e
         
         id=""
         value={value}
-        className='w-full p-3 text-xl border-slate-100 border-2 rounded-lg'
+        className='w-full p-3 text-lg border-slate-100 border-2 rounded-lg'
         // label="outlined"
         // variant='outlined'
         placeholder='Start typing...'
