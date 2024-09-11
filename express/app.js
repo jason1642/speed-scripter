@@ -1,9 +1,9 @@
 import createError from 'http-errors'
 import express from 'express'
-
 import cookieParser from 'cookie-parser';
 import logger from 'morgan'
 import indexRouter from './routes/index.js'
+import authRouter from './routes/auth.js'
 import usersRouter from './routes/users.js'
 
 let app = express();
@@ -21,6 +21,7 @@ app.use(cookieParser());
 app.use(express.json())
 
 app.use('/', indexRouter);
+app.use('/auth', authRouter)
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
