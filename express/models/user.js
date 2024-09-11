@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 3,
-        maxlength: 24
+        maxlength: 24,
+        unique: true, 
       },
     email: {
         type: String,
@@ -33,6 +34,6 @@ const userSchema = new mongoose.Schema({
 
 }, {timestamps: true})
 
-const userModel = mongoose.model('User', userSchema)
+const userModel = mongoose.model('Users', userSchema)
 
 export default userModel

@@ -2,6 +2,7 @@ import express from 'express'
 import userModel from '../models/user.js'
 import _ from 'lodash'
 import mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
 
 
 let router = express.Router();
@@ -26,10 +27,13 @@ const createUser = async (req,res)=>{
     _id: new mongoose.Types.ObjectId() 
   }
 ))
+const salt = await bcrypt.genSalt(10);
 
 
+    user.password = await bcrypt.hash(user.password, salt)
 
 
+  await user.save()
   console.log(user)
   return res.send('returning post action')
 }

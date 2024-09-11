@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import 'dotenv/config'
 
 const connect = async () => await mongoose.connect(
-    `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@portfolio-website.halgu.mongodb.net/test?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@portfolio-website.halgu.mongodb.net/speed-scripter?retryWrites=true&w=majority`,
    
    
 ).then((res, err) =>{ 
